@@ -2,7 +2,7 @@ import pickle
 import pyHook
 import pythoncom
 import time
-
+import ctypes
 
 #Load identity
 name = raw_input("User identity to be loaded: ")
@@ -65,6 +65,7 @@ def OnKeyboardEvent(event):
                 error_skew_total += abs( (max(timing)-min(timing)) - (max(iden[word])-min(iden[word])) )
             if words > 30 and error_total/float(words) > ERROR_THRESHOLD:
                 print "You are a suspicious person"
+                ctypes.windll.user32.LockWorkStation()
                 print "Regular Error", error_total/float(words)
                 print "Skew", error_skew_total/float(words)
         #print word, iden[word]
