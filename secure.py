@@ -3,6 +3,10 @@ import pyHook
 import pythoncom
 import time
 import ctypes
+import win32com.client as wincl
+
+#init text-to-speech
+speak = wincl.Dispatch("SAPI.SpVoice")
 
 #Load identity
 name = raw_input("User identity to be loaded: ")
@@ -66,6 +70,7 @@ def OnKeyboardEvent(event):
             if words > 30 and error_total/float(words) > ERROR_THRESHOLD:
                 print "You are a suspicious person"
                 ctypes.windll.user32.LockWorkStation()
+                speak.Speak("Suspicious typing has been detected, you have been logged out.")
                 print "Regular Error", error_total/float(words)
                 print "Skew", error_skew_total/float(words)
         #print word, iden[word]
